@@ -1,6 +1,6 @@
 import { Story, Meta } from '@storybook/react';
 import React from 'react';
-import Image, { ImageProps } from '../components/atoms/Image';
+import Image, { ImageProps } from '../../components/atoms/Image';
 
 export default {
   title: 'Atoms/Image',
