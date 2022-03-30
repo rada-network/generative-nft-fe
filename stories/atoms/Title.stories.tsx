@@ -1,7 +1,7 @@
 import { Story, Meta } from '@storybook/react';
 import React from 'react';
 
-import Title, { TitleProps } from '../../components/atoms/Title';
+import Title, { TitleProps } from '../../src/components/atoms/Title';
 
 export default {
   title: 'Atoms/Title',

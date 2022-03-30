@@ -1,7 +1,9 @@
 import { Story, Meta } from '@storybook/react';
 import React from 'react';
 
-import ButtonLink, { ButtonLinkProps } from '../../components/atoms/ButtonLink';
+import ButtonLink, {
+  ButtonLinkProps,
+} from '../../src/components/atoms/ButtonLink';
 
 export default {
   title: 'Atoms/ButtonLink',
