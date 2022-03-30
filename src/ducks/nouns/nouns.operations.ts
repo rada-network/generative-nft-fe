@@ -10,18 +10,28 @@ export const fetchNounInfo = async (
   web3: Web3,
   tokenId: number,
 ) => {
-  const data = await callDataUri(web3, tokenId);
-  const buffer = Buffer.from(
-    data.replace(/^data:\w+\/\w+;base64,/, ''),
-    'base64',
-  );
-  const parsedData = JSON.parse(buffer.toString('utf-8'));
+  try {
+    const data = await callDataUri(web3, tokenId);
+    const buffer = Buffer.from(
+      data.replace(/^data:\w+\/\w+;base64,/, ''),
+      'base64',
+    );
+    const parsedData = JSON.parse(buffer.toString('utf-8'));
 
-  dispatch(
-    actions.setNounInfoAction(
-      parsedData.name,
-      parsedData.description,
-      parsedData.image,
-    ),
-  );
+    dispatch(
+      actions.setNounInfoAction(
+        parsedData.name,
+        parsedData.description,
+        parsedData.image,
+      ),
+    );
+  } catch (e) {
+    dispatch(
+      actions.setNounInfoAction(
+        'unknown',
+        'unknown',
+        'https://nouns.wtf/static/media/loading-skull-noun.d7293d44.gif',
+      ),
+    );
+  }
 };
