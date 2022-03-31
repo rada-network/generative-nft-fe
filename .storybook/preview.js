@@ -8,6 +8,8 @@ import Backend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 
+import '../styles/globals.css';
+
 const customViewports = {
   iPhone5: {
     name: 'iPhone5',
