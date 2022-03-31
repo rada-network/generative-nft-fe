@@ -45,25 +45,27 @@ const NounInfo: FunctionComponent<NounInfoProps> = (props) => {
 
   return (
     <Fragment>
-      <div>
-        <div className={styles['c-NounInfoImage']}>
-          <Image src={props.imageSrc} />
-        </div>
-        <div>
-          <div>
-            <Button
-              className={styles['btn-blue']}
-              onClick={goLeft}
-              disabled={tokenId <= 0}
-            >
-              <Icon className="fas fa-angle-left" />
-            </Button>
-            <Button className={styles['btn-blue']} onClick={goRight}>
-              <Icon className="fas fa-angle-right" />
-            </Button>
+      <div className="container mx-auto">
+        <div className="flex m-8">
+          <div className={`${styles['c-NounInfoImage']} flex-1 w-64`}>
+            <Image src={props.imageSrc} />
           </div>
-          <Title>{props.name}</Title>
-          <Text>{props.description}</Text>
+          <div className={`flex-1 w-32 ml-8`}>
+            <div>
+              <Button
+                className={styles['btn-blue']}
+                onClick={goLeft}
+                disabled={tokenId <= 0}
+              >
+                <Icon className="fas fa-angle-left" />
+              </Button>
+              <Button className={styles['btn-blue']} onClick={goRight}>
+                <Icon className="fas fa-angle-right" />
+              </Button>
+            </div>
+            <Title className="size-medium">{props.name}</Title>
+            <Text>{props.description}</Text>
+          </div>
         </div>
       </div>
     </Fragment>

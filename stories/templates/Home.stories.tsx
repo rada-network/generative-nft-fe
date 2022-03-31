@@ -13,7 +13,7 @@ const Template: Story<HomeProps> = (args) => <Home {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  title: 'NFT 0',
+  name: 'NFT 0',
   imageSrc: imageBase64Src,
   description: 'NFT 0 is a member of the NFT RADA',
 };
