@@ -7,6 +7,8 @@ import { NounsState } from './nouns.types';
 
 const nounInfoSelector = (state: NounsState) => state.nounInfo;
 
+const nounAuctionInfoSelector = (state: NounsState) => state.nounAuctionInfo;
+
 ////////
 // Create selectors
 ////////
@@ -15,4 +17,9 @@ const nounInfoSelector = (state: NounsState) => state.nounInfo;
 export const getNounInfo = createSelector(
   nounInfoSelector,
   (nounInfo) => nounInfo,
+);
+
+export const getNounAuctionInfo = createSelector(
+  nounAuctionInfoSelector,
+  (nounAuctionInfo) => nounAuctionInfo,
 );

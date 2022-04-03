@@ -1,4 +1,4 @@
-import NounInfo from 'src/components/organisms/NounInfo';
+import NounInfo, { NounInfoProps } from 'src/components/organisms/NounInfo';
 import React, { FunctionComponent, Fragment } from 'react';
 import css from 'styled-jsx/css';
 
@@ -6,20 +6,12 @@ const styles = css`
   /* stylelint-disable */
 `;
 
-export type HomeProps = {
-  name: string;
-  imageSrc: string;
-  description: string;
-};
+export type HomeProps = NounInfoProps;
 
-const Home: FunctionComponent<HomeProps> = (props) => {
+const Home: FunctionComponent<HomeProps> = ({ nounInfo, nounAuctionInfo }) => {
   return (
     <Fragment>
-      <NounInfo
-        name={props.name}
-        imageSrc={props.imageSrc}
-        description={props.description}
-      />
+      <NounInfo nounInfo={nounInfo} nounAuctionInfo={nounAuctionInfo} />
       <style jsx>{styles}</style>
     </Fragment>
   );

@@ -3,29 +3,61 @@ import type { NextPage } from 'next';
 import Home, { HomeProps } from 'src/components/templates/Home';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchNounInfo } from 'src/ducks/nouns/nouns.operations';
+import {
+  fetchNounAuctionInfo,
+  fetchNounInfo,
+} from 'src/ducks/nouns/nouns.operations';
 import Web3 from 'web3';
 import { useRouter } from 'next/router';
+import {
+  getNounAuctionInfo,
+  getNounInfo,
+} from 'src/ducks/nouns/nouns.selectors';
+import BigNumber from 'bignumber.js';
 const HomePage: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const web3Context = useWeb3Context();
   const nounsSelector = useSelector((state) => state.nouns);
   const tokenId = router.query.tokenId as string;
+
   useEffect(() => {
-    fetchNounInfo(
-      dispatch,
-      web3Context.bscWeb3 as Web3,
-      parseInt(tokenId ? tokenId : '0'),
-    );
+    if (router.isReady) {
+      fetchNounInfo(
+        dispatch,
+        web3Context.bscWeb3 as Web3,
+        parseInt(tokenId ? tokenId : '0'),
+      );
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [router.isReady, tokenId]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      fetchNounAuctionInfo(dispatch, web3Context.bscWeb3 as Web3);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
+  const nounInfo = getNounInfo(nounsSelector);
+  const nounAuctionInfo = getNounAuctionInfo(nounsSelector);
 
   const homeProps: HomeProps = {
-    name: nounsSelector.nounInfo?.name ?? '',
-    description: nounsSelector.nounInfo?.description ?? '',
-    imageSrc: nounsSelector.nounInfo?.imageSrc ?? '',
+    nounInfo: {
+      name: nounInfo?.name ?? '',
+      description: nounInfo?.description ?? '',
+      imageSrc: nounInfo?.imageSrc ?? '',
+    },
+    nounAuctionInfo: {
+      nftId: nounAuctionInfo?.nftId ?? -1,
+      amount: nounAuctionInfo?.amount ?? new BigNumber(0),
+      startTime: nounAuctionInfo?.startTime ?? new Date(),
+      endTime: nounAuctionInfo?.endTime ?? new Date(),
+      bidder: nounAuctionInfo?.bidder ?? '',
+      settled: nounAuctionInfo?.settled ?? false,
+    },
   };
 
   return <Home {...homeProps} />;

@@ -12,6 +12,11 @@ const reducer = (
         ...state,
         nounInfo: action.payload,
       };
+    case NounsActionType.setNounAuctionInfo:
+      return {
+        ...state,
+        nounAuctionInfo: action.payload,
+      };
     default:
       return state;
   }
