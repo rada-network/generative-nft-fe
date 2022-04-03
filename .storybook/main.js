@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   stories: [
@@ -75,6 +76,25 @@ module.exports = {
       ],
     });
 
+    newConfig.plugins.push(
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+        process: 'process/browser',
+      }),
+    );
+
+    newConfig.resolve.fallback = {
+      ...newConfig.resolve.fallback,
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      os: require.resolve('os-browserify/browser'),
+      url: require.resolve('url'),
+      assert: require.resolve('assert'),
+    };
+
+    console.log('new config: ', newConfig);
     return newConfig;
   },
   typescript: {
