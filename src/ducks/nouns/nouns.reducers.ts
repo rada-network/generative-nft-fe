@@ -7,6 +7,11 @@ const reducer = (
   action: NounsAction,
 ): NounsState => {
   switch (action.type) {
+    case NounsActionType.setCurrentTokenId:
+      return {
+        ...state,
+        currentTokenId: action.payload,
+      };
     case NounsActionType.setNounInfo:
       return {
         ...state,

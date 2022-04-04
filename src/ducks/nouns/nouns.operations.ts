@@ -1,4 +1,8 @@
-import { callDataUri } from 'src/contracts/RadaToken';
+import {
+  callCurrentNftId,
+  callDataUri,
+  callOwnerOf,
+} from 'src/contracts/RadaToken';
 import { Dispatch } from 'react';
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
@@ -7,6 +11,20 @@ import * as actions from './nouns.actions';
 import { NounsAction } from './nouns.types';
 import { callAuction } from 'src/contracts/RadaAuctionHouse';
 import { fromUnixTime } from 'date-fns';
+
+export const fetchCurrentTokenId = async (
+  dispatch: Dispatch<NounsAction>,
+  web3: Web3,
+) => {
+  try {
+    const data = await callCurrentNftId(web3);
+    const currentTokenId = parseInt(data);
+
+    dispatch(actions.setCurrentTokenId(currentTokenId));
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 export const fetchNounInfo = async (
   dispatch: Dispatch<NounsAction>,
@@ -21,11 +39,14 @@ export const fetchNounInfo = async (
     );
     const parsedData = JSON.parse(buffer.toString('utf-8'));
 
+    const ownerAddress = await callOwnerOf(web3, tokenId);
+
     dispatch(
       actions.setNounInfoAction(
         parsedData.name,
         parsedData.description,
         parsedData.image,
+        ownerAddress,
       ),
     );
   } catch (e) {
@@ -34,6 +55,7 @@ export const fetchNounInfo = async (
         'unknown',
         'unknown',
         'https://nouns.wtf/static/media/loading-skull-noun.d7293d44.gif',
+        '',
       ),
     );
   }

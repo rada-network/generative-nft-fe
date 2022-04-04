@@ -12,5 +12,5 @@ export const useCurrentTokenId = (): number | undefined => {
     return tokenId;
   }
 
-  return nounsSelector.nounAuctionInfo?.nftId;
+  return nounsSelector.currentTokenId;
 };

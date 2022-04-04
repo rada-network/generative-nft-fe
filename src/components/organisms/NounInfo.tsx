@@ -22,6 +22,7 @@ export type NounInfoProps = {
     name: string;
     description: string;
     imageSrc: string;
+    ownerAddress: string;
   };
   nounAuctionInfo: {
     nftId: number;
@@ -49,7 +50,7 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
     event,
   ) => {
     event.preventDefault();
-    if (!currentTokenId || currentTokenId === 0) {
+    if (!currentTokenId || currentTokenId === 1) {
       return;
     }
 
@@ -85,8 +86,8 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
 
     settleAuction(
       dispatch,
+      router,
       web3Context.bscWeb3 as Web3,
-      currentTokenId,
       walletsSelector.walletInfo?.web3 as Web3,
       walletsSelector.walletInfo?.account as string,
     );
@@ -95,6 +96,7 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
   if (!currentTokenId) {
     return <></>;
   }
+
   return (
     <Fragment>
       <div className="container mx-auto">
@@ -123,6 +125,12 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
             <Title className="size-medium">{nounInfo.name}</Title>
             <Text>{nounInfo.description}</Text>
 
+            {currentTokenId !== nounAuctionInfo.nftId && nounInfo.ownerAddress && (
+              <div>
+                <Title className="size-small">Winner</Title>
+                <Text>{nounInfo.ownerAddress}</Text>
+              </div>
+            )}
             {currentTokenId === nounAuctionInfo.nftId &&
               !nounAuctionInfo.settled && (
                 <Fragment>
@@ -135,7 +143,15 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
                       )}
                     </Text>
                   </div>
-                  <div>
+                  {nounAuctionInfo.bidder !==
+                    '0x0000000000000000000000000000000000000000' && (
+                    <div>
+                      <Title className="size-small">Winning Bidder</Title>
+                      <Text>{nounAuctionInfo.bidder}</Text>
+                    </div>
+                  )}
+
+                  <div className="mb-6">
                     <Title className="size-small">Auction end in</Title>
                     {/* TODO: use countdown component */}
                     <Text>{formatISO(nounAuctionInfo.endTime)}</Text>

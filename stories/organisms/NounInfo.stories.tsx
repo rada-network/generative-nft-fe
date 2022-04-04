@@ -20,6 +20,7 @@ Default.args = {
     name: 'NFT 0',
     imageSrc: imageBase64Src,
     description: 'NFT 0 is a member of the NFT RADA',
+    ownerAddress: '0x0000000002314',
   },
   nounAuctionInfo: {
     nftId: 7,

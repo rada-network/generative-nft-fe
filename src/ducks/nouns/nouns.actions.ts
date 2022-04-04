@@ -1,10 +1,18 @@
 import { NounsActionType } from './nouns.types';
 import BigNumber from 'bignumber.js';
 
+export const setCurrentTokenId = (tokenId: number) => {
+  return {
+    type: NounsActionType.setCurrentTokenId,
+    payload: tokenId,
+  };
+};
+
 export const setNounInfoAction = (
   name: string,
   description: string,
   imageSrc: string,
+  ownerAddress: string,
 ) => {
   return {
     type: NounsActionType.setNounInfo,
@@ -12,6 +20,7 @@ export const setNounInfoAction = (
       name,
       description,
       imageSrc,
+      ownerAddress,
     },
   };
 };

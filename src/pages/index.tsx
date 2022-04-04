@@ -4,6 +4,7 @@ import Home, { HomeProps } from 'src/components/templates/Home';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  fetchCurrentTokenId,
   fetchNounAuctionInfo,
   fetchNounInfo,
 } from 'src/ducks/nouns/nouns.operations';
@@ -33,6 +34,7 @@ const HomePage: NextPage = () => {
 
   useEffect(() => {
     if (router.isReady) {
+      fetchCurrentTokenId(dispatch, web3Context.bscWeb3 as Web3);
       fetchNounAuctionInfo(dispatch, web3Context.bscWeb3 as Web3);
     }
 
@@ -47,6 +49,7 @@ const HomePage: NextPage = () => {
       name: nounInfo?.name ?? '',
       description: nounInfo?.description ?? '',
       imageSrc: nounInfo?.imageSrc ?? '',
+      ownerAddress: nounInfo?.ownerAddress ?? '',
     },
     nounAuctionInfo: {
       nftId: nounAuctionInfo?.nftId ?? -1,

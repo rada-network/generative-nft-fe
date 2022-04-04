@@ -2,10 +2,12 @@ import { Dispatch } from 'react';
 import BigNumber from 'bignumber.js';
 
 export type NounsState = {
+  currentTokenId?: number;
   nounInfo?: {
     name: string;
     description: string;
     imageSrc: string;
+    ownerAddress: string;
   };
   nounAuctionInfo?: {
     nftId: number;
@@ -18,6 +20,7 @@ export type NounsState = {
 };
 
 export const NounsActionType = {
+  setCurrentTokenId: 'setCurrentTokenId',
   setNounInfo: 'setNounInfo',
   setNounAuctionInfo: 'setNounAuctionInfo',
 };

@@ -88,6 +88,12 @@
           "internalType": "address",
           "name": "minter",
           "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "allow",
+          "type": "bool"
         }
       ],
       "name": "MinterUpdated",
@@ -222,6 +228,13 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "currentNftId",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
       ],
@@ -267,13 +280,6 @@
       "name": "mint",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "minter",
-      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -380,7 +386,8 @@
     },
     {
       "inputs": [
-        { "internalType": "address", "name": "_minter", "type": "address" }
+        { "internalType": "address", "name": "_minter", "type": "address" },
+        { "internalType": "bool", "name": "_allow", "type": "bool" }
       ],
       "name": "setMinter",
       "outputs": [],
