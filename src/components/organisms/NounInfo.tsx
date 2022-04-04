@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { settleAuction } from 'src/ducks/wallets/wallets.operations';
 import { useWeb3Context } from 'src/libs/web3-context';
 import CreateBidForm from './CreateBidForm';
+import { useCurrentTokenId } from 'src/libs/useCurrentTokenId';
 
 export type NounInfoProps = {
   nounInfo: {
@@ -39,7 +40,7 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
   const router = useRouter();
   const web3Context = useWeb3Context();
 
-  const tokenId = parseInt((router.query.tokenId as string) ?? 0);
+  const currentTokenId = useCurrentTokenId();
   const now = getCurrentTime();
   const walletsSelector = useSelector((state) => state.wallets);
   const dispatch = useDispatch();
@@ -48,13 +49,13 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
     event,
   ) => {
     event.preventDefault();
-    if (tokenId === 0) {
+    if (!currentTokenId || currentTokenId === 0) {
       return;
     }
 
     router.push({
       pathname: router.pathname,
-      query: { ...router.query, tokenId: (tokenId - 1).toString() },
+      query: { ...router.query, tokenId: (currentTokenId - 1).toString() },
     });
   };
 
@@ -63,9 +64,13 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
   ) => void = (event) => {
     event.preventDefault();
 
+    if (!currentTokenId) {
+      return;
+    }
+
     router.push({
       pathname: router.pathname,
-      query: { ...router.query, tokenId: (tokenId + 1).toString() },
+      query: { ...router.query, tokenId: (currentTokenId + 1).toString() },
     });
   };
 
@@ -74,15 +79,22 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
   ) => void = (event) => {
     event.preventDefault();
 
+    if (!currentTokenId) {
+      return;
+    }
+
     settleAuction(
       dispatch,
       web3Context.bscWeb3 as Web3,
-      tokenId,
+      currentTokenId,
       walletsSelector.walletInfo?.web3 as Web3,
       walletsSelector.walletInfo?.account as string,
     );
   };
 
+  if (!currentTokenId) {
+    return <></>;
+  }
   return (
     <Fragment>
       <div className="container mx-auto">
@@ -100,7 +112,7 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
               <Button
                 className={styles['btn-blue']}
                 onClick={goLeft}
-                disabled={tokenId <= 0}
+                disabled={currentTokenId <= 0}
               >
                 <Icon className="fas fa-angle-left" />
               </Button>
@@ -111,43 +123,44 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
             <Title className="size-medium">{nounInfo.name}</Title>
             <Text>{nounInfo.description}</Text>
 
-            {tokenId === nounAuctionInfo.nftId && !nounAuctionInfo.settled && (
-              <Fragment>
-                <div>
-                  <Title className="size-small">Current Bid</Title>
-                  <Text>
-                    {Web3.utils.fromWei(
-                      nounAuctionInfo.amount.toString(),
-                      'ether',
+            {currentTokenId === nounAuctionInfo.nftId &&
+              !nounAuctionInfo.settled && (
+                <Fragment>
+                  <div>
+                    <Title className="size-small">Current Bid</Title>
+                    <Text>
+                      {Web3.utils.fromWei(
+                        nounAuctionInfo.amount.toString(),
+                        'ether',
+                      )}
+                    </Text>
+                  </div>
+                  <div>
+                    <Title className="size-small">Auction end in</Title>
+                    {/* TODO: use countdown component */}
+                    <Text>{formatISO(nounAuctionInfo.endTime)}</Text>
+                  </div>
+
+                  {isAfter(now, nounAuctionInfo.endTime) &&
+                    !nounAuctionInfo.settled &&
+                    walletsSelector.walletInfo && (
+                      <div className="mt-8">
+                        <Button
+                          className={styles['btn-blue']}
+                          onClick={settleAuctionClick}
+                        >
+                          Settle auction
+                        </Button>
+                      </div>
                     )}
-                  </Text>
-                </div>
-                <div>
-                  <Title className="size-small">Auction end in</Title>
-                  {/* TODO: use countdown component */}
-                  <Text>{formatISO(nounAuctionInfo.endTime)}</Text>
-                </div>
 
-                {isAfter(now, nounAuctionInfo.endTime) &&
-                  !nounAuctionInfo.settled &&
-                  walletsSelector.walletInfo && (
-                    <div className="mt-8">
-                      <Button
-                        className={styles['btn-blue']}
-                        onClick={settleAuctionClick}
-                      >
-                        Settle auction
-                      </Button>
-                    </div>
-                  )}
-
-                {isBefore(now, nounAuctionInfo.endTime) &&
-                  nounAuctionInfo.endTime &&
-                  walletsSelector.walletInfo && (
-                    <CreateBidForm tokenId={tokenId} />
-                  )}
-              </Fragment>
-            )}
+                  {isBefore(now, nounAuctionInfo.endTime) &&
+                    nounAuctionInfo.endTime &&
+                    walletsSelector.walletInfo && (
+                      <CreateBidForm tokenId={currentTokenId} />
+                    )}
+                </Fragment>
+              )}
           </div>
         </div>
       </div>

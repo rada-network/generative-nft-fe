@@ -14,24 +14,22 @@ import {
   getNounInfo,
 } from 'src/ducks/nouns/nouns.selectors';
 import BigNumber from 'bignumber.js';
+import { useCurrentTokenId } from 'src/libs/useCurrentTokenId';
+
 const HomePage: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const web3Context = useWeb3Context();
   const nounsSelector = useSelector((state) => state.nouns);
-  const tokenId = router.query.tokenId as string;
+  const currentTokenId = useCurrentTokenId();
 
   useEffect(() => {
-    if (router.isReady) {
-      fetchNounInfo(
-        dispatch,
-        web3Context.bscWeb3 as Web3,
-        parseInt(tokenId ? tokenId : '0'),
-      );
+    if (router.isReady && currentTokenId) {
+      fetchNounInfo(dispatch, web3Context.bscWeb3 as Web3, currentTokenId);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady, tokenId]);
+  }, [router.isReady, currentTokenId]);
 
   useEffect(() => {
     if (router.isReady) {
