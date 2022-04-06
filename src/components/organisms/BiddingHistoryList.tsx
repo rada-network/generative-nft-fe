@@ -20,7 +20,7 @@ const BiddingHistoryList: FunctionComponent<BiddingHistoryListProps> = ({
   return (
     <Fragment>
       {biddings.length > 0 && (
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-8">
           <ul className="bg-white rounded-lg border border-gray-200 w-1/2 text-gray-900">
             {firstBidding && (
               <li className="px-6 py-2 border-b border-gray-200 w-full rounded-t-lg">
@@ -84,7 +84,7 @@ const BiddingHistoryList: FunctionComponent<BiddingHistoryListProps> = ({
       <div className="flex justify-center mt-8">
         <div className="w-1/2">
           <div className="flex justify-end">
-            <ButtonLink className="btn-blue" href={`/tokenId=${tokenId}`}>
+            <ButtonLink className="btn-blue" href={`/?tokenId=${tokenId}`}>
               Back
             </ButtonLink>
           </div>

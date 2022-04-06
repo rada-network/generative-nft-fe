@@ -16,6 +16,7 @@ import { settleAuction } from 'src/ducks/wallets/wallets.operations';
 import { useWeb3Context } from 'src/libs/web3-context';
 import CreateBidForm from './CreateBidForm';
 import { useCurrentTokenId } from 'src/libs/useCurrentTokenId';
+import TextLink from '../atoms/TextLink';
 
 export type NounInfoProps = {
   nounInfo: {
@@ -126,10 +127,20 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
             <Text>{nounInfo.description}</Text>
 
             {currentTokenId !== nounAuctionInfo.nftId && nounInfo.ownerAddress && (
-              <div>
-                <Title className="size-small">Winner</Title>
-                <Text>{nounInfo.ownerAddress}</Text>
-              </div>
+              <Fragment>
+                <div>
+                  <Title className="size-small">Winner</Title>
+                  <Text>{nounInfo.ownerAddress}</Text>
+                </div>
+                <div className="mt-8">
+                  <TextLink
+                    className="underline"
+                    href={`/bidding-history/${currentTokenId}`}
+                  >
+                    View bidding history
+                  </TextLink>
+                </div>
+              </Fragment>
             )}
             {currentTokenId === nounAuctionInfo.nftId &&
               !nounAuctionInfo.settled && (
