@@ -21,3 +21,16 @@ yarn install
 ```sh
 yarn storybook
 ```
+
+# development
+
+```sh
+yarn storybook
+```
+
+# production
+
+```sh
+yarn build
+yarn start
+```
