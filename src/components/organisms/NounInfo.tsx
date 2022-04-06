@@ -151,7 +151,8 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
                       {Web3.utils.fromWei(
                         nounAuctionInfo.amount.toString(),
                         'ether',
-                      )}
+                      )}{' '}
+                      BNB
                     </Text>
                   </div>
                   {nounAuctionInfo.bidder !==
@@ -168,6 +169,7 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
                     <Text>{formatISO(nounAuctionInfo.endTime)}</Text>
                   </div>
 
+                  {/* TODO: automatically settle by settle watcher */}
                   {isAfter(now, nounAuctionInfo.endTime) &&
                     !nounAuctionInfo.settled &&
                     walletsSelector.walletInfo && (

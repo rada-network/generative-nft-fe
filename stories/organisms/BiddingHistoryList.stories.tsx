@@ -1,7 +1,5 @@
 import { Story, Meta } from '@storybook/react';
-import BigNumber from 'bignumber.js';
 import React from 'react';
-import { imageBase64Src } from 'stories/assets/base64Image';
 
 import BiddingHistoryList, {
   BiddingHistoryListProps,

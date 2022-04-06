@@ -32,7 +32,7 @@ const BiddingHistoryList: FunctionComponent<BiddingHistoryListProps> = ({
                       {firstBidding.fromAddress}
                     </TextLink>
                   </div>
-                  <div>Amount: {firstBidding.biddedAmount}</div>
+                  <div>Amount: {firstBidding.biddedAmount} BNB</div>
                 </div>
               </li>
             )}
@@ -49,7 +49,7 @@ const BiddingHistoryList: FunctionComponent<BiddingHistoryListProps> = ({
                       {bidding.fromAddress}
                     </TextLink>
                   </div>
-                  <div>Amount: {bidding.biddedAmount}</div>
+                  <div>Amount: {bidding.biddedAmount} BNB</div>
                 </div>
               </li>
             ))}
@@ -63,7 +63,7 @@ const BiddingHistoryList: FunctionComponent<BiddingHistoryListProps> = ({
                       {lastBidding.fromAddress}
                     </TextLink>
                   </div>
-                  <div>Amount: {lastBidding.biddedAmount}</div>
+                  <div>Amount: {lastBidding.biddedAmount} BNB</div>
                 </div>
               </li>
             )}
