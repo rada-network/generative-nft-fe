@@ -6,12 +6,12 @@ import {
 import { Dispatch } from 'react';
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
+import Moralis from 'moralis';
 
 import * as actions from './nouns.actions';
-import { NounsAction } from './nouns.types';
+import { Bidding, NounsAction } from './nouns.types';
 import { callAuction } from 'src/contracts/RadaAuctionHouse';
 import { fromUnixTime } from 'date-fns';
-
 export const fetchCurrentTokenId = async (
   dispatch: Dispatch<NounsAction>,
   web3: Web3,
@@ -86,5 +86,55 @@ export const fetchNounAuctionInfo = async (
     );
   } catch (e) {
     console.error('Error fetchNounAuctionInfo: ', e);
+  }
+};
+
+export const filterBiddingHistory = (
+  input: string,
+  tokenId: number,
+): boolean => {
+  // TODO: improve code.
+  if (!input.includes('0x659dd2b4')) {
+    return false;
+  }
+
+  const inputTokenId = new BigNumber(input.slice(10), 16);
+  if (tokenId.toString() !== inputTokenId.toString()) {
+    return false;
+  }
+
+  return true;
+};
+export const fetchTokenIdBiddingHistory = async (
+  dispatch: Dispatch<NounsAction>,
+  tokenId: number,
+) => {
+  try {
+    const transactions = await Moralis.Web3API.account.getTransactions({
+      chain: 'bsc testnet',
+      address: process.env.RADA_AUCTION_HOUSE_CONTRACT_ADDRESS as string,
+      from_block: 0,
+    });
+
+    const createBidTransactions = transactions.result?.filter((tx) =>
+      filterBiddingHistory(tx.input, tokenId),
+    );
+
+    if (!createBidTransactions) {
+      return;
+    }
+    const biddings: Bidding[] = createBidTransactions.map((tx) => {
+      return {
+        transactionHash: tx.hash,
+        fromAddress: tx.from_address,
+        nonce: tx.nonce,
+        biddedTokenId: tokenId,
+        biddedAmount: Web3.utils.fromWei(tx.value, 'ether'),
+      };
+    });
+
+    dispatch(actions.setBiddingsAction(biddings));
+  } catch (e) {
+    console.error('Error fetchTokenIdBiddingHistory: ', e);
   }
 };

@@ -22,6 +22,11 @@ const reducer = (
         ...state,
         nounAuctionInfo: action.payload,
       };
+    case NounsActionType.setBiddings:
+      return {
+        ...state,
+        biddings: action.payload,
+      };
     default:
       return state;
   }

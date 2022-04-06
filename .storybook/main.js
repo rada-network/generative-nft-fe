@@ -94,7 +94,6 @@ module.exports = {
       assert: require.resolve('assert'),
     };
 
-    console.log('new config: ', newConfig);
     return newConfig;
   },
   typescript: {

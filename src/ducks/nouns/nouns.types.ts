@@ -17,12 +17,22 @@ export type NounsState = {
     bidder: string;
     settled: boolean;
   };
+  biddings?: Bidding[];
+};
+
+export type Bidding = {
+  transactionHash: string;
+  fromAddress: string;
+  nonce: string;
+  biddedTokenId: number;
+  biddedAmount: string;
 };
 
 export const NounsActionType = {
   setCurrentTokenId: 'setCurrentTokenId',
   setNounInfo: 'setNounInfo',
   setNounAuctionInfo: 'setNounAuctionInfo',
+  setBiddings: 'setBiddings',
 };
 
 export type NounsActionType =

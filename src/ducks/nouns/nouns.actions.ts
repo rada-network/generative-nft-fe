@@ -1,4 +1,4 @@
-import { NounsActionType } from './nouns.types';
+import { Bidding, NounsActionType } from './nouns.types';
 import BigNumber from 'bignumber.js';
 
 export const setCurrentTokenId = (tokenId: number) => {
@@ -43,5 +43,12 @@ export const setNounAuctionAction = (
       bidder,
       settled,
     },
+  };
+};
+
+export const setBiddingsAction = (biddings: Bidding[]) => {
+  return {
+    type: NounsActionType.setBiddings,
+    payload: biddings,
   };
 };

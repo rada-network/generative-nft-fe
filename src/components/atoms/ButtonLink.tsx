@@ -7,7 +7,7 @@ const styles = css`
 `;
 
 export type ButtonLinkProps = LinkProps & {
-  className: string;
+  className?: string;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 };
 
