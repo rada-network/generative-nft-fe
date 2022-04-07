@@ -157,13 +157,23 @@ const NounInfo: FunctionComponent<NounInfoProps> = ({
                   </div>
                   {nounAuctionInfo.bidder !==
                     '0x0000000000000000000000000000000000000000' && (
-                    <div>
-                      <Title className="size-small">Winning Bidder</Title>
-                      <Text>{nounAuctionInfo.bidder}</Text>
-                    </div>
+                    <Fragment>
+                      <div>
+                        <Title className="size-small">Winning Bidder</Title>
+                        <Text>{nounAuctionInfo.bidder}</Text>
+                      </div>
+                      <div className="mt-6">
+                        <TextLink
+                          className="underline"
+                          href={`/bidding-history/${currentTokenId}`}
+                        >
+                          View bidding history
+                        </TextLink>
+                      </div>
+                    </Fragment>
                   )}
 
-                  <div className="mb-6">
+                  <div className="mb-6 mt-6">
                     <Title className="size-small">Auction end in</Title>
                     {/* TODO: use countdown component */}
                     <Text>{formatISO(nounAuctionInfo.endTime)}</Text>

@@ -27,12 +27,13 @@ const BiddingHistoryList: FunctionComponent<BiddingHistoryListProps> = ({
                 <div className="flex justify-between">
                   <div>
                     <TextLink
+                      className="underline"
                       href={`${process.env.BSC_EXPLORER_URL}/tx/${firstBidding.transactionHash}`}
                     >
                       {firstBidding.fromAddress}
                     </TextLink>
                   </div>
-                  <div>Amount: {firstBidding.biddedAmount} BNB</div>
+                  <div>{firstBidding.biddedAmount} BNB</div>
                 </div>
               </li>
             )}
@@ -44,12 +45,13 @@ const BiddingHistoryList: FunctionComponent<BiddingHistoryListProps> = ({
                 <div className="flex justify-between">
                   <div>
                     <TextLink
+                      className="underline"
                       href={`${process.env.BSC_EXPLORER_URL}/tx/${bidding.transactionHash}`}
                     >
                       {bidding.fromAddress}
                     </TextLink>
                   </div>
-                  <div>Amount: {bidding.biddedAmount} BNB</div>
+                  <div>{bidding.biddedAmount} BNB</div>
                 </div>
               </li>
             ))}
@@ -58,12 +60,13 @@ const BiddingHistoryList: FunctionComponent<BiddingHistoryListProps> = ({
                 <div className="flex justify-between">
                   <div>
                     <TextLink
+                      className="underline"
                       href={`${process.env.BSC_EXPLORER_URL}/tx/${lastBidding.transactionHash}`}
                     >
                       {lastBidding.fromAddress}
                     </TextLink>
                   </div>
-                  <div>Amount: {lastBidding.biddedAmount} BNB</div>
+                  <div>{lastBidding.biddedAmount} BNB</div>
                 </div>
               </li>
             )}
