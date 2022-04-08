@@ -36,4 +36,6 @@ yarn start
 ```
 
 // TODO: fix web3js issues with webpack 5 storybook.
+// TODO: add transaction loadings.
+// TODO: support mobile wallets.
 // TODO: improve bad codes.
